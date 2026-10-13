@@ -12,6 +12,21 @@ load_dotenv()
 
 GITHUB_API = "https://api.github.com"
 
+
+load_dotenv()
+
+GITHUB_API = "https://api.github.com"
+
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+
+GITHUB_HEADERS = {
+    "Accept": "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+}
+
+if GITHUB_TOKEN:
+    GITHUB_HEADERS["Authorization"] = f"Bearer {GITHUB_TOKEN}"
+
 api_key = os.getenv("GROQ_API_KEY")
 
 if not api_key:
@@ -78,9 +93,10 @@ def parse_repo_url(url: str):
 def fetch_repository(state: AgentState):
     owner = state["owner"]
     repo = state["repo"]
-
+    
     response = requests.get(
         f"{GITHUB_API}/repos/{owner}/{repo}",
+        headers=GITHUB_HEADERS,
         timeout=20
     )
     response.raise_for_status()
