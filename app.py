@@ -215,14 +215,14 @@ def get_repository_insights(owner: str, repo: str):
     base_url = f"https://api.github.com/repos/{owner}/{repo}"
 
     # Fetch basic repository information
-    response = requests.get(base_url, headers=headers, timeout=20)
+    response = requests.get(base_url, headers=GITHUB_HEADERS, timeout=20)
     response.raise_for_status()
     info = response.json()
 
     # Fetch language byte counts
     language_response = requests.get(
         f"{base_url}/languages",
-        headers=headers,
+        headers=GITHUB_HEADERS,
         timeout=20
     )
     language_response.raise_for_status()
@@ -234,7 +234,7 @@ def get_repository_insights(owner: str, repo: str):
     tree_response = requests.get(
         f"{base_url}/git/trees/{branch}",
         params={"recursive": "1"},
-        headers=headers,
+        headers=GITHUB_HEADERS,
         timeout=30
     )
     tree_response.raise_for_status()
