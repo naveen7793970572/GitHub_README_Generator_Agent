@@ -108,9 +108,9 @@ def fetch_repository(state: AgentState):
     branch = info["default_branch"]
 
     tree_response = requests.get(
-        f"{GITHUB_API}/repos/{owner}/{repo}/git/trees/{branch}",
-        params={"recursive": "1"},
-        timeout=30
+    f"{GITHUB_API}/repos/{owner}/{repo}/git/trees/{branch}?recursive=1",
+    headers=GITHUB_HEADERS,
+    timeout=20
     )
     tree_response.raise_for_status()
     tree = tree_response.json()
